@@ -8,11 +8,15 @@ import (
 	"os"
 )
 
-func NewHashObject(data []byte) string {
+func NewHashObject(data []byte, objectType string) string {
+	typedData := append([]byte(objectType), 0x00)
+	typedData = append(typedData, data...)
+
 	h := sha1.New()
-	h.Write(data)
+	h.Write(typedData)
+
 	objectId := fmt.Sprintf("%x", h.Sum(nil))
-	if err := ioutil.WriteFile(fmt.Sprintf("%s/objects/%s", app.GIT_DIR, objectId), data, os.ModePerm); err != nil {
+	if err := ioutil.WriteFile(fmt.Sprintf("%s/objects/%s", app.GitDir, objectId), typedData, os.ModePerm); err != nil {
 		panic(err)
 	}
 	return objectId

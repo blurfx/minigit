@@ -1,3 +1,7 @@
 package app
 
-const GIT_DIR = ".git"
+const (
+	GitDir = ".git"
+
+	ObjectBlob = "blob"
+)

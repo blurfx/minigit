@@ -4,8 +4,11 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"io/ioutil"
+	"minigit/internal/app"
 	"minigit/internal/app/plumbing"
 )
+
+var objectType string
 
 var hashObjectCmd = &cobra.Command{
 	Use:  "hash-object <file>",
@@ -15,6 +18,10 @@ var hashObjectCmd = &cobra.Command{
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(plumbing.NewHashObject(data))
+		fmt.Println(plumbing.NewHashObject(data, objectType))
 	},
+}
+
+func init() {
+	hashObjectCmd.PersistentFlags().StringVarP(&objectType, "", "t", app.ObjectBlob, "type of object")
 }

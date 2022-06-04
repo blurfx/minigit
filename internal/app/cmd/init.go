@@ -12,10 +12,10 @@ var initCmd = &cobra.Command{
 	Use:  "init [dir]",
 	Args: cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, _ []string) {
-		if err := os.Mkdir(app.GIT_DIR, os.ModePerm); err != nil {
+		if err := os.Mkdir(app.GitDir, os.ModePerm); err != nil {
 			panic(err)
 		}
-		if err := os.Mkdir(fmt.Sprintf("%s/objects", app.GIT_DIR), os.ModePerm); err != nil {
+		if err := os.Mkdir(fmt.Sprintf("%s/objects", app.GitDir), os.ModePerm); err != nil {
 			panic(err)
 		}
 
@@ -23,6 +23,6 @@ var initCmd = &cobra.Command{
 		if err != nil {
 			panic(err)
 		}
-		fmt.Printf("Initialized empty ugit repository in %s/%s\n", path.Base(wd), app.GIT_DIR)
+		fmt.Printf("Initialized empty git repository in %s/%s\n", path.Base(wd), app.GitDir)
 	},
 }
