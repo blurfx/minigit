@@ -1,7 +1,10 @@
 package app
 
+type ObjectType string
+
 const (
 	GitDir = ".git"
 
-	ObjectBlob = "blob"
+	ObjectTypeBlob = ObjectType("blob")
+	ObjectTypeTree = ObjectType("tree")
 )

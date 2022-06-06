@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-func NewHashObject(data []byte, objectType string) string {
+func NewHashObject(data []byte, objectType app.ObjectType) string {
 	typedData := append([]byte(objectType), 0x00)
 	typedData = append(typedData, data...)
 

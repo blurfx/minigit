@@ -10,6 +10,6 @@ var catFileCmd = &cobra.Command{
 	Use:  "cat-file <object>",
 	Args: cobra.ExactValidArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		plumbing.CatFile(args[0], app.ObjectBlob)
+		plumbing.CatFile(args[0], app.ObjectTypeBlob)
 	},
 }

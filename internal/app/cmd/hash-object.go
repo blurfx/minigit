@@ -18,10 +18,10 @@ var hashObjectCmd = &cobra.Command{
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(plumbing.NewHashObject(data, objectType))
+		fmt.Println(plumbing.NewHashObject(data, app.ObjectTypeBlob))
 	},
 }
 
 func init() {
-	hashObjectCmd.PersistentFlags().StringVarP(&objectType, "", "t", app.ObjectBlob, "type of object")
+	hashObjectCmd.PersistentFlags().StringVarP(&objectType, "", "t", string(app.ObjectTypeBlob), "type of object")
 }
