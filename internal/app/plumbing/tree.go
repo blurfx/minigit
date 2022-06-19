@@ -2,10 +2,12 @@ package plumbing
 
 import (
 	"fmt"
+	"io/fs"
 	"io/ioutil"
 	"minigit/internal/app"
 	"minigit/internal/app/utils"
 	"os"
+	"path/filepath"
 	"sort"
 	"strings"
 )
@@ -53,7 +55,23 @@ func getTree(objectId string, basePath string) map[string]string {
 	return result
 }
 
+func clearCurrentDirectory() {
+	filepath.Walk(".", func(path string, info fs.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if isIgnored(path) || !info.IsDir() {
+			return nil
+		}
+		return os.Remove(path)
+	})
+}
+
+func isIgnored(path string) bool {
+	return utils.Contains(strings.Split(path, "/"), app.GitDir)
+}
 func ReadTree(treeObjectId string) error {
+	clearCurrentDirectory()
 	tree := getTree(treeObjectId, "./")
 	for p, objectId := range tree {
 		if err := os.MkdirAll(p, os.ModePerm); err != nil {
@@ -76,7 +94,7 @@ func WriteTree(dirname string) string {
 	for _, f := range files {
 		f.Name()
 		relPath := fmt.Sprintf("%s/%s", dirname, f.Name())
-		if utils.Contains(strings.Split(relPath, "/"), app.GitDir) {
+		if isIgnored(relPath) {
 			continue
 		}
 
